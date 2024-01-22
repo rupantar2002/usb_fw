@@ -1,0 +1,16 @@
+#include "stm32f4xx.h"
+#include "Helpers/logger.h"
+
+int main(void)
+{
+	log_info("Program entry point");
+
+	// enable GPIOD clock
+	RCC->AHB1ENR
+	SET_BIT(RCC->AHB1ENR,RCC_AHB1ENR_GPIODEN)
+
+    /* Loop forever */
+	while(1){
+
+	}
+}

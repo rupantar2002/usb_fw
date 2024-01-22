@@ -1,0 +1,5 @@
+#include "usbd_framework.h"
+
+void usbd_initialize(void){
+	usbd_gp
+}

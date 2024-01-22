@@ -1,0 +1,17 @@
+#include "usbd_driver.h"
+
+
+void initialize_usb_pins(void){
+
+	// Enable clock for GPIOA
+	SET_BIT(RCC->AHB1ENR,RCC_AHB1ENR_GPIOAEN);
+
+	// set alternate function of PA12 and PA11
+	GPIOA->AFR
+	MODIFY_REG(GPIOA->ADR[1])
+}
+
+void initialize_usb_core(void){
+
+}
+

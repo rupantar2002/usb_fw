@@ -1,0 +1,24 @@
+#include "usbd_driver.h"
+
+
+void initialize_usb_pins(void){
+
+	// Enable clock for GPIOA
+	SET_BIT(RCC->AHB1ENR,RCC_AHB1ENR_GPIOAEN);
+
+	// set alternate function of PA12(D+) and PA11(D-)
+	MODIFY_REG(GPIOA->AFR[1],
+			GPIO_AFRH_AFRH11|GPIO_AFRH_AFRH11,
+			_FLD2VAL(GPIO_AFRH_AFRH11,0xC)|_FLD2VAL(GPIO_AFRH_AFRH11,0xC));
+
+	// Configure pins to work in USB mode
+	GPIOA->MODER
+	MODIFY_REG(GPIOA->MODER,
+			GPIO_MODER_MODE11|GPIO_MODER_MODE12,
+			_VAL2FLD(GPIO_MODER_MODE11,0)|_VAL2FLD(GPIO_MODER_MODE12,0));
+}
+
+void initialize_usb_core(void){
+
+}
+

@@ -1,0 +1,58 @@
+#include "usbd_driver.h"
+
+void initialize_gpio_pins(void) {
+
+	// Enable clock for GPIOA
+	SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
+
+	// set alternate function of PA12(D+) and PA11(D-)
+	MODIFY_REG(GPIOA->AFR[1], GPIO_AFRH_AFRH11 | GPIO_AFRH_AFRH11,
+			_FLD2VAL(GPIO_AFRH_AFRH11,0xC)|_FLD2VAL(GPIO_AFRH_AFRH11,0xC));
+
+	// Configure pins to work in USB mode
+	MODIFY_REG(GPIOA->MODER, GPIO_MODER_MODE11|GPIO_MODER_MODE12,
+			_VAL2FLD(GPIO_MODER_MODE11,0x2)|_VAL2FLD(GPIO_MODER_MODE12,0X2));
+}
+
+void initialize_usb_core(void) {
+
+	// Enable the clock of USB core
+	SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_OTGHSEN);
+
+	// Configure USB to device mode
+	MODIFY_REG(USB_OTG_HS->GUSBCFG,
+			USB_OTG_GUSBCFG_FDMOD | USB_OTG_GUSBCFG_PHYSEL | USB_OTG_GUSBCFG_TRDT,
+			USB_OTG_GUSBCFG_FDMOD | USB_OTG_GUSBCFG_PHYSEL | _VAL2FLD( USB_OTG_GUSBCFG_TRDT,0x9));
+
+	// Configure the device to run in full speed mode
+	MODIFY_REG(USB_OTG_HS_DEVICE->DCFG, USB_OTG_DCFG_DSPD,
+			_VAL2FLD(USB_OTG_DCFG_DSPD,0x3));
+
+	// Enable VBUS sensing
+	SET_BIT(USB_OTG_HS->GCCFG, USB_OTG_GCCFG_VBUSBSEN);
+
+	// unmask core interrupts
+	SET_BIT(USB_OTG_HS->GINTMSK,
+			USB_OTG_GINTMSK_USBRST | USB_OTG_GINTMSK_ENUMDNEM |
+			USB_OTG_GINTMSK_SOFM|USB_OTG_GINTMSK_USBSUSPM |
+			USB_OTG_GINTMSK_WUIM | USB_OTG_GINTMSK_IEPINT |
+			USB_OTG_GINTMSK_RXFLVLM);
+
+	// clear all pending core interrupts
+	WRITE_REG(USB_OTG_HS->GINTSTS,0xffffffff);
+
+	// unmask global interrupts
+	SET_BIT(USB_OTG_HS->GAHBCFG,USB_OTG_GAHBCFG_GINT);
+}
+
+void connect(void){
+
+	// power on the transreceiver
+	USB_OTG_HS->GCCFG
+	SET_BIT(USB_OTG_HS->GCCFG,USB_OTG_GCCFG_PWRDWN);
+
+	// connect device to bus
+	USB_OTG_HS_DEVICE->DCTL
+	CLEAR_BIT(USB_OTG_HS_DEVICE->DCTL,USB_OTG_DCTL_SDIS)
+}
+

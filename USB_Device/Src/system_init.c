@@ -88,6 +88,6 @@ static void configure_mco1(void){
 
 
 void SystemInit(void){
-	configure_mco1();
+//	configure_mco1();
 	configure_clock();
 }

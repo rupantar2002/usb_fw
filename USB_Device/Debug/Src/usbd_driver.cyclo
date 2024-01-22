@@ -1,0 +1,4 @@
+../Src/usbd_driver.c:3:6:initialize_gpio_pins	1
+../Src/usbd_driver.c:17:6:initialize_usb_core	1
+../Src/usbd_driver.c:48:6:connect	1
+../Src/usbd_driver.c:57:6:disconnect	1

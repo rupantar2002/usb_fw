@@ -1,10 +1,25 @@
-#include "stm32f4xx.h"
 #include "Helpers/logger.h"
+#include "usbd_framework.h"
 
 int main(void)
 {
+
+//	// enable GPIOD clock
+//	SET_BIT(RCC->AHB1ENR,RCC_AHB1ENR_GPIODEN);
+//
+//	// ser gpio mode to OUTPUT
+//	MODIFY_REG(GPIOD->MODER,GPIO_MODER_MODE13,_VAL2FLD(GPIO_MODER_MODE13,1));
+//
+//	// enable gpio output
+//	MODIFY_REG(GPIOD->ODR,GPIO_ODR_OD13,_VAL2FLD(GPIO_ODR_OD13,1));
+
 	log_info("Program entry point");
 
+	usbd_initialize();
+
+
     /* Loop forever */
-	for(;;);
+	while(1){
+
+	}
 }

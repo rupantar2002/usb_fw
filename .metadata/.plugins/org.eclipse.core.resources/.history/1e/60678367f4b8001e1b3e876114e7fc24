@@ -1,0 +1,22 @@
+#include "stm32f4xx.h"
+#include "Helpers/logger.h"
+
+int main(void)
+{
+	log_info("Program entry point");
+
+	// enable GPIOD clock
+	SET_BIT(RCC->AHB1ENR,RCC_AHB1ENR_GPIODEN);
+
+	// ser gpio mode to OUTPUT
+	MODIFY_REG(GPIOD->MODER,GPIO_MODER_MODE12,_VAL2FLD(GPIO_MODER_MODE12,1));
+
+	// enable gpio output
+	GPIOD->ODR
+	MODIFY_REG(GPIOD->ODR,GPIO_ODR_OD12)
+
+    /* Loop forever */
+	while(1){
+
+	}
+}
